@@ -16,9 +16,11 @@ export const GlobalContextProvider = ({ children }) => {
 
   useEffect(() => {
     const item = localStorage.getItem("favorites")
-    const localFavs = JSON.parse(item)
-    if (localFavs.length > 0) {
-      setFavorites(localFavs)
+    if (item) {
+      const localFavs = JSON.parse(item)
+      if (localFavs.length > 0) {
+        setFavorites(localFavs)
+      }
     }
   }, [])
 
@@ -28,7 +30,7 @@ export const GlobalContextProvider = ({ children }) => {
 
 
   const addFavorites = (crypto) => {
-    if(!favorites.find((fav) => fav.serial_id === crypto.serial_id)){
+    if (!favorites.find((fav) => fav.serial_id === crypto.serial_id)) {
       setFavorites([...favorites, crypto])
     }
   }
