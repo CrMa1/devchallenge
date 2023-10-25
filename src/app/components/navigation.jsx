@@ -15,8 +15,8 @@ import PaidIcon from '@mui/icons-material/Paid';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import styles from './page.module.css'
-import Cardcrypto from './components/cryptodata';
+import styles from '../page.module.css'
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -24,7 +24,7 @@ const drawerWidth = 240;
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
-  
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -34,15 +34,17 @@ function ResponsiveDrawer(props) {
       <Toolbar />
       <Divider />
       <List>
-        {['My Currencies', 'Crypto Currencies'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <AccountCircleIcon /> : <PaidIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+        {['All Cryptos', 'My Currencies'].map((text, index) => (
+          <Link key={text} href={index % 2 === 0 ? '/' : '/profile'}>
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <PaidIcon /> : <AccountCircleIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
       <Divider />
@@ -50,7 +52,7 @@ function ResponsiveDrawer(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
-  
+
   return (
     <main className={styles.main}>
       <Box sx={{ display: 'flex' }}>
@@ -72,7 +74,7 @@ function ResponsiveDrawer(props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Responsive drawer
+              Front Dev Challenge
             </Typography>
           </Toolbar>
         </AppBar>
@@ -112,7 +114,7 @@ function ResponsiveDrawer(props) {
           sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
           <Toolbar />
-          <Cardcrypto />
+          {props.contentPage}
         </Box>
       </Box>
     </main>

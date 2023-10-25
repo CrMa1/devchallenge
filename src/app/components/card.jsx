@@ -1,12 +1,11 @@
 import * as React from "react";
+import { useGlobalContext } from '../context/cryptostore';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useContext } from "react";
-import { UserContext } from "../context/CryptoContext";
 
 const bull = (
   <Box
@@ -17,11 +16,11 @@ const bull = (
   </Box>
 );
 
-export default function CardComponent({ data }) {
-  const context = useContext(UserContext);
-  return (
+export default function CardComponent({ data, isFavorite, addedSuccess, deleteAlert }) {
+  const { addFavorites, deleteFavorites } = useGlobalContext()
+    return (
     <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{ minHeight: 220 }}>
         <React.Fragment>
           <CardContent>
             <Typography
@@ -44,7 +43,15 @@ export default function CardComponent({ data }) {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button onClick={()=>context.addCurrencies(data)} size="small">Add to My Currencies</Button>
+            {isFavorite ?
+              <Button onClick={() => {
+                (deleteFavorites(data.serial_id), deleteAlert());
+              }} size="small">Remove from my favorites</Button>
+            :
+              <Button onClick={() => {
+                (addFavorites(data), addedSuccess());
+              }} size="small">Add to My Currencies</Button>
+            }
           </CardActions>
         </React.Fragment>
       </Card>
